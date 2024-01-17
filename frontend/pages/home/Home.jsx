@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addBook, getAllBooks } from "../../store/actions";
 import styles from "./Home.module.css";
@@ -10,11 +10,10 @@ const Home = () => {
     title: "",
     author: "",
     description: "",
-    image: null,
   });
 
   useEffect(() => {
-    // dispatch(getAllBooks());
+    dispatch(getAllBooks());
   }, []);
 
   const handleSubmit = (e) => {

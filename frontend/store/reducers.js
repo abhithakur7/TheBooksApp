@@ -11,9 +11,8 @@ import {
 export const allBooksData = (data = [], action) => {
   switch (action.type) {
     case SET_BOOK_LIST:
-      return [...action.data];
+      return [...action.response];
     case ADD_BOOK:
-      console.log(data, action, "working");
       return [action.data, ...data];
     case REMOVE_BOOK:
       return data;

@@ -3,14 +3,14 @@ import { GET_BOOKS, SET_BOOK_LIST, ADD_BOOK } from "./constants";
 import axios from "axios";
 
 function* getBooks() {
-  let data = yield axios.get(import.meta.env.VITE_BASE_URL);
-  data = yield data.json();
-  yield put({ type: SET_BOOK_LIST, data });
+  let response = yield axios.get(import.meta.env.VITE_BASE_URL);
+  response = yield response.data;
+  yield put({ type: SET_BOOK_LIST, response });
 }
 
 function* addBook({ data }) {
   console.log(data, "Data");
-  let result = yield axios.post(`http://localhost:8082/api`, data);
+  yield axios.post(`http://localhost:8082/api`, data);
 }
 
 function* bookSaga() {
