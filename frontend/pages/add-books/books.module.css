@@ -1,0 +1,57 @@
+.books {
+  width: calc(100% -10rem);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2.5rem 5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  align-items: start;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  min-height: 2rem;
+  outline: none;
+  border: none;
+  padding: 4px 8px;
+  border: 1px solid grey;
+}
+
+.form textarea {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.form input:focus,
+.form textarea:focus {
+  border: 1px solid black;
+}
+
+.form .cover {
+  width: 100%;
+  height: 3rem;
+}
+
+.form .cover input[type="file"] {
+  display: none;
+}
+
+.form .cover .cover-image {
+  border: 1px solid #ccc;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+}

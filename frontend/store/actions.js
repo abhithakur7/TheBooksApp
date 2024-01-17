@@ -14,10 +14,10 @@ export const addBook = (data) => {
   };
 };
 
-export const removeBook = (data) => {
+export const removeBook = (id) => {
   return {
     type: REMOVE_BOOK,
-    data,
+    id,
   };
 };
 

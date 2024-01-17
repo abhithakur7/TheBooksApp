@@ -31,7 +31,6 @@ export const allBooksData = (data = [], action) => {
 export const bookData = (data = {}, action) => {
   switch (action.type) {
     case SET_BOOK_DATA:
-      console.log("dataaaa", data);
       return data;
     default:
       return data;
