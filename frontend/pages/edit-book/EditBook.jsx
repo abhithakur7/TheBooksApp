@@ -1,14 +1,18 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addBook } from "../../store/actions";
-import styles from "./books.module.css";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllBooks, setBookData, updateBook } from "../../store/actions";
+import styles from "../add-books/books.module.css";
+import { useSearchParams } from "react-router-dom";
 
-const AddBook = () => {
+const EditBook = () => {
   const [data, setData] = useState({
     title: "",
     author: "",
     description: "",
   });
+  const [searchParams] = useSearchParams();
+  const book = useSelector((state) => state.bookData);
+  const books = useSelector((state) => state.allBooksData);
 
   const dispatch = useDispatch();
 
@@ -18,11 +22,10 @@ const AddBook = () => {
       [property]: e.target.value,
     }));
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(addBook(data));
+    dispatch(updateBook({ id: searchParams.get("id"), data }));
     setData({
       title: "",
       author: "",
@@ -30,9 +33,32 @@ const AddBook = () => {
     });
   };
 
+  useEffect(() => {
+    dispatch(getAllBooks());
+  }, []);
+
+  useEffect(() => {
+    if (books.length > 0) {
+      dispatch(
+        setBookData(books.filter((item) => item._id === searchParams.get("id")))
+      );
+    }
+  }, [books]);
+
+  useEffect(() => {
+    if (book._id) {
+      setData((prev) => ({
+        ...prev,
+        title: book.title,
+        author: book.author,
+        description: book.description,
+      }));
+    }
+  }, [book]);
+
   return (
     <div className={styles.books}>
-      <h3>Add Book</h3>
+      <h3>Edit Book</h3>
       <form onSubmit={handleSubmit} className={styles.form}>
         <input
           name="title"
@@ -59,10 +85,10 @@ const AddBook = () => {
             Choose cover
           </label>
         </div> */}
-        <button type="submit">Add Book</button>
+        <button type="submit">Update Book</button>
       </form>
     </div>
   );
 };
 
-export default AddBook;
+export default EditBook;

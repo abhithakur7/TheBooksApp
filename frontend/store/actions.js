@@ -1,10 +1,9 @@
 import {
   ADD_BOOK,
   REMOVE_BOOK,
-  REMOVE_ALL_BOOKS,
   UPDATE_BOOK,
-  SEARCH_BOOK,
   GET_BOOKS,
+  SET_BOOK_DATA,
 } from "./constants";
 
 export const addBook = (data) => {
@@ -21,27 +20,23 @@ export const removeBook = (id) => {
   };
 };
 
-export const removeAllBooks = () => {
-  return {
-    type: REMOVE_ALL_BOOKS,
-  };
-};
-
-export const updateBook = () => {
+export const updateBook = ({ id, data }) => {
   return {
     type: UPDATE_BOOK,
-  };
-};
-
-export const searchBook = (query) => {
-  return {
-    type: SEARCH_BOOK,
-    query,
+    id,
+    data,
   };
 };
 
 export const getAllBooks = () => {
   return {
     type: GET_BOOKS,
+  };
+};
+
+export const setBookData = (data) => {
+  return {
+    type: SET_BOOK_DATA,
+    data,
   };
 };

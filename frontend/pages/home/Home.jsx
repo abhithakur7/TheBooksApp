@@ -20,8 +20,13 @@ const Home = () => {
           <div className={styles.cardheader}>
             <h3>{book.title}</h3>
             <div className={styles.actions}>
-              <MdEdit />
-              <FaTrash onClick={() => dispatch(removeBook(book._id))} />
+              <a href={`/editbook?id=${book._id}`}>
+                <MdEdit />
+              </a>
+              <FaTrash
+                cursor="pointer"
+                onClick={() => dispatch(removeBook(book._id))}
+              />
             </div>
           </div>
           <p>{book.description}</p>
