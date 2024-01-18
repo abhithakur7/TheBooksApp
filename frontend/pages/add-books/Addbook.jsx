@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addBook } from "../../store/actions";
-import { v4 as uuidv4 } from "uuid";
 import styles from "./books.module.css";
 
 const AddBook = () => {
@@ -23,12 +22,12 @@ const AddBook = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(
-      addBook({
-        id: uuidv4(),
-        ...data,
-      })
-    );
+    dispatch(addBook(data));
+    setData({
+      title: "",
+      author: "",
+      description: "",
+    });
   };
 
   return (

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBooks } from "../../store/actions";
+import { getAllBooks, removeBook } from "../../store/actions";
 import styles from "./Home.module.css";
 import { MdEdit } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
@@ -21,7 +21,7 @@ const Home = () => {
             <h3>{book.title}</h3>
             <div className={styles.actions}>
               <MdEdit />
-              <FaTrash />
+              <FaTrash onClick={() => dispatch(removeBook(book._id))} />
             </div>
           </div>
           <p>{book.description}</p>
