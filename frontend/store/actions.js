@@ -4,6 +4,7 @@ import {
   UPDATE_BOOK,
   GET_BOOKS,
   SET_BOOK_DATA,
+  GET_BOOK_DETAILS,
 } from "./constants";
 
 export const addBook = (data) => {
@@ -31,6 +32,13 @@ export const updateBook = ({ id, data }) => {
 export const getAllBooks = () => {
   return {
     type: GET_BOOKS,
+  };
+};
+
+export const getBookDetails = (id) => {
+  return {
+    type: GET_BOOK_DETAILS,
+    id,
   };
 };
 

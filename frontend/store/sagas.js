@@ -5,6 +5,8 @@ import {
   ADD_BOOK,
   REMOVE_BOOK,
   UPDATE_BOOK,
+  GET_BOOK_DETAILS,
+  SET_BOOK_DATA,
 } from "./constants";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -16,7 +18,7 @@ function* getBooks() {
 }
 
 function* addBook({ data }) {
-  let result = yield axios.post(`http://localhost:8082/api`, data);
+  let result = yield axios.post(`${import.meta.env.VITE_BASE_URL}`, data);
   console.log(result);
   if (result.status === 200) {
     toast.success("Book Added Successfully", {
@@ -30,7 +32,7 @@ function* addBook({ data }) {
 }
 
 function* removeBook({ id }) {
-  let response = yield axios.delete(`http://localhost:8082/api/${id}`);
+  let response = yield axios.delete(`${import.meta.env.VITE_BASE_URL}/${id}`);
   if (response.status === 200) {
     yield put({ type: GET_BOOKS });
     toast.success("Book Deleted Successfully", {
@@ -44,7 +46,7 @@ function* removeBook({ id }) {
 }
 
 function* updateBook({ id, data }) {
-  let result = yield axios.put(`http://localhost:8082/api/${id}`, data);
+  let result = yield axios.put(`${import.meta.env.VITE_BASE_URL}/${id}`, data);
   if (result.status === 200) {
     toast.success("Book Updated Successfully", {
       toastId: "added",
@@ -56,11 +58,18 @@ function* updateBook({ id, data }) {
   }
 }
 
+function* getBookDetails({ id }) {
+  let response = yield axios.get(`${import.meta.env.VITE_BASE_URL}/${id}`);
+  response = yield response.data;
+  yield put({ type: SET_BOOK_DATA, response });
+}
+
 function* bookSaga() {
   yield takeEvery(GET_BOOKS, getBooks);
   yield takeEvery(ADD_BOOK, addBook);
   yield takeEvery(REMOVE_BOOK, removeBook);
   yield takeEvery(UPDATE_BOOK, updateBook);
+  yield takeEvery(GET_BOOK_DETAILS, getBookDetails);
 }
 
 export default bookSaga;

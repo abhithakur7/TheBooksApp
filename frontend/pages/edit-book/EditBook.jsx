@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBooks, setBookData, updateBook } from "../../store/actions";
+import {
+  getAllBooks,
+  getBookDetails,
+  setBookData,
+  updateBook,
+} from "../../store/actions";
 import styles from "../add-books/books.module.css";
 import { useSearchParams } from "react-router-dom";
 
@@ -12,7 +17,6 @@ const EditBook = () => {
   });
   const [searchParams] = useSearchParams();
   const book = useSelector((state) => state.bookData);
-  const books = useSelector((state) => state.allBooksData);
 
   const dispatch = useDispatch();
 
@@ -34,16 +38,8 @@ const EditBook = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllBooks());
+    dispatch(getBookDetails(searchParams.get("id")));
   }, []);
-
-  useEffect(() => {
-    if (books.length > 0) {
-      dispatch(
-        setBookData(books.filter((item) => item._id === searchParams.get("id")))
-      );
-    }
-  }, [books]);
 
   useEffect(() => {
     if (book._id) {

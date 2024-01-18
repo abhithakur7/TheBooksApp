@@ -40,12 +40,4 @@ router.delete("/:id", (req, res) => {
     .catch((err) => res.status(404).json({ error: "No such a book" }));
 });
 
-router.post("/delete_all", (req, res) => {
-  Book.deleteMany()
-    .then((book) => res.json({ mgs: "All book entries deleted successfully" }))
-    .catch((err) =>
-      res.status(404).json({ error: "Unable to delete the enteries" })
-    );
-});
-
 module.exports = router;
