@@ -18,8 +18,18 @@ function* getBooks() {
 }
 
 function* addBook({ data }) {
-  let result = yield axios.post(`${import.meta.env.VITE_BASE_URL}`, data);
-  console.log(result);
+  let formData = new FormData();
+  formData.append(
+    "data",
+    JSON.stringify({
+      title: data.title,
+      author: data.author,
+      description: data.description,
+    })
+  );
+  formData.append("cover", data.image);
+  let result = yield axios.post(`${import.meta.env.VITE_BASE_URL}`, formData);
+
   if (result.status === 200) {
     toast.success("Book Added Successfully", {
       toastId: "added",
@@ -46,7 +56,20 @@ function* removeBook({ id }) {
 }
 
 function* updateBook({ id, data }) {
-  let result = yield axios.put(`${import.meta.env.VITE_BASE_URL}/${id}`, data);
+  let formData = new FormData();
+  formData.append(
+    "data",
+    JSON.stringify({
+      title: data.title,
+      author: data.author,
+      description: data.description,
+    })
+  );
+  formData.append("cover", data.image);
+  let result = yield axios.put(
+    `${import.meta.env.VITE_BASE_URL}/${id}`,
+    formData
+  );
   if (result.status === 200) {
     toast.success("Book Updated Successfully", {
       toastId: "added",

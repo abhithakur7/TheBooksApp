@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllBooks,
-  getBookDetails,
-  setBookData,
-  updateBook,
-} from "../../store/actions";
+import { getBookDetails, updateBook } from "../../store/actions";
 import styles from "../add-books/books.module.css";
 import { useSearchParams } from "react-router-dom";
 
@@ -21,10 +16,17 @@ const EditBook = () => {
   const dispatch = useDispatch();
 
   const handleChange = (property, e) => {
-    setData((prev) => ({
-      ...prev,
-      [property]: e.target.value,
-    }));
+    if (property !== "image") {
+      setData((prev) => ({
+        ...prev,
+        [property]: e.target.value,
+      }));
+    } else {
+      setData((prev) => ({
+        ...prev,
+        image: e.target.files[0],
+      }));
+    }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,6 +36,7 @@ const EditBook = () => {
       title: "",
       author: "",
       description: "",
+      image: null,
     });
   };
 
@@ -75,12 +78,12 @@ const EditBook = () => {
           value={data.description}
           onChange={(e) => handleChange("description", e)}
         />
-        {/* <div className={styles.cover}>
+        <div className={styles.cover}>
           <label className={styles["cover-image"]}>
             <input type="file" onChange={(e) => handleChange("image", e)} />
             Choose cover
           </label>
-        </div> */}
+        </div>
         <button type="submit">Update Book</button>
       </form>
     </div>

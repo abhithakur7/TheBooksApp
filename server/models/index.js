@@ -13,6 +13,16 @@ const BookSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  cover: {
+    id: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
+  },
   date_added: {
     type: Date,
     default: Date.now,

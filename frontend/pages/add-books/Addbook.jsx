@@ -8,25 +8,34 @@ const AddBook = () => {
     title: "",
     author: "",
     description: "",
+    image: null,
   });
 
   const dispatch = useDispatch();
 
   const handleChange = (property, e) => {
-    setData((prev) => ({
-      ...prev,
-      [property]: e.target.value,
-    }));
+    if (property !== "image") {
+      setData((prev) => ({
+        ...prev,
+        [property]: e.target.value,
+      }));
+    } else {
+      setData((prev) => ({
+        ...prev,
+        image: e.target.files[0],
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log(data);
     dispatch(addBook(data));
     setData({
       title: "",
       author: "",
       description: "",
+      image: null,
     });
   };
 
@@ -53,12 +62,12 @@ const AddBook = () => {
           value={data.description}
           onChange={(e) => handleChange("description", e)}
         />
-        {/* <div className={styles.cover}>
+        <div className={styles.cover}>
           <label className={styles["cover-image"]}>
             <input type="file" onChange={(e) => handleChange("image", e)} />
             Choose cover
           </label>
-        </div> */}
+        </div>
         <button type="submit">Add Book</button>
       </form>
     </div>

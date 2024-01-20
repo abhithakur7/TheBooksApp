@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
-
+const cloudinary = require("../utils/cloudinary");
+const multer = require("multer");
 const Book = require("../models/index");
+const fs = require("fs");
+
+const upload = multer({ dest: "uploads/" });
 
 router.get("/test", (req, res) => res.send("book route testing!"));
 
@@ -17,13 +21,30 @@ router.get("/:id", (req, res) => {
     .catch((err) => res.status(404).json({ nobookfound: "No Book found" }));
 });
 
-router.post("/", (req, res) => {
-  Book.create(req.body)
-    .then((book) => res.json({ msg: "Book added successfully" }))
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json({ error: "Unable to add this book" });
+const cloudUpload = upload.fields([{ name: "data" }, { name: "cover" }]);
+
+router.post("/", cloudUpload, async (req, res) => {
+  try {
+    const image = req.files.cover[0];
+
+    const result = await cloudinary.uploader.upload(image.path, {
+      folder: "covers",
     });
+    const book = await Book.create({
+      cover: {
+        id: result.public_id,
+        url: result.secure_url,
+      },
+      ...JSON.parse(req.body.data),
+    });
+    fs.unlink("uploads/c05d7e98875268849b040415b1bb3604", function (err) {
+      if (err) throw err;
+    });
+    res.json({ msg: "Book added successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: "Unable to add this book" });
+  }
 });
 
 router.put("/:id", (req, res) => {
