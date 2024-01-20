@@ -37,7 +37,7 @@ router.post("/", cloudUpload, async (req, res) => {
       },
       ...JSON.parse(req.body.data),
     });
-    fs.unlink("uploads/c05d7e98875268849b040415b1bb3604", function (err) {
+    fs.unlink(image.path, function (err) {
       if (err) throw err;
     });
     res.json({ msg: "Book added successfully" });
