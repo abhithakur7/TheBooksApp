@@ -47,15 +47,38 @@ router.post("/", cloudUpload, async (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
-  Book.findByIdAndUpdate(req.params.id, req.body)
-    .then((book) => res.json({ msg: "Updated successfully" }))
-    .catch((err) =>
-      res.status(400).json({ error: "Unable to update the Database" })
-    );
+router.put("/:id", cloudUpload, async (req, res) => {
+  try {
+    const image = req.files.cover[0];
+    const result = await cloudinary.uploader.upload(image.path, {
+      folder: "covers",
+    });
+
+    const data = await Book.findById(req.params.id);
+    if (data.cover.id) {
+      await cloudinary.uploader.destroy(data.cover.id);
+    }
+    const book = await Book.findByIdAndUpdate(req.params.id, {
+      cover: {
+        id: result.public_id,
+        url: result.secure_url,
+      },
+      ...JSON.parse(req.body.data),
+    });
+    fs.unlink(image.path, function (err) {
+      if (err) throw err;
+    });
+    res.json({ msg: "Updated successfully" });
+  } catch (error) {
+    res.status(400).json({ error: "Unable to update the Database" });
+  }
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
+  const book = await Book.findById(req.params.id);
+  if (book.cover.id) {
+    await cloudinary.uploader.destroy(book.cover.id);
+  }
   Book.findByIdAndDelete(req.params.id)
     .then((book) => res.json({ mgs: "Book entry deleted successfully" }))
     .catch((err) => res.status(404).json({ error: "No such a book" }));

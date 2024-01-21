@@ -29,7 +29,6 @@ const AddBook = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(data);
     dispatch(addBook(data));
     setData({
       title: "",

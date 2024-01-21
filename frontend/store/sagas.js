@@ -34,6 +34,7 @@ function* addBook({ data }) {
     toast.success("Book Added Successfully", {
       toastId: "added",
     });
+    yield put({ type: SET_BOOK_DATA, result });
   } else {
     toast.error("Something went wrong", {
       toastId: "error",
@@ -74,6 +75,7 @@ function* updateBook({ id, data }) {
     toast.success("Book Updated Successfully", {
       toastId: "added",
     });
+    window.location.href = "/";
   } else {
     toast.error("Something went wrong", {
       toastId: "error",
